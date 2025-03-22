@@ -273,7 +273,7 @@
 											<div class=" text-sm font-medium text-left mb-1">{$i18n.t('Email')}</div>
 											<input
 												bind:value={email}
-												type="email"
+												type="text"
 												class="my-0.5 w-full text-sm outline-hidden bg-transparent"
 												autocomplete="email"
 												name="email"
