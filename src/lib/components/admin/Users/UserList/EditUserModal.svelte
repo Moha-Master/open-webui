@@ -103,7 +103,7 @@
 							<div class="flex-1">
 								<input
 									class="w-full rounded-sm py-2 px-4 text-sm dark:text-gray-300 dark:bg-gray-800 disabled:text-gray-500 dark:disabled:text-gray-500 outline-hidden"
-									type="email"
+									type="text"
 									bind:value={_user.email}
 									autocomplete="off"
 									required
