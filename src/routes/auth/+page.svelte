@@ -281,7 +281,7 @@
 											>
 											<input
 												bind:value={email}
-												type="email"
+												type="text"
 												id="email"
 												class="my-0.5 w-full text-sm outline-hidden bg-transparent"
 												autocomplete="email"
