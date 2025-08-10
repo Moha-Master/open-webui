@@ -1,4 +1,3 @@
-# noqa: INP001
 import os
 import shutil
 import subprocess
@@ -10,6 +9,12 @@ from hatchling.builders.hooks.plugin.interface import BuildHookInterface
 class CustomBuildHook(BuildHookInterface):
     def initialize(self, version, build_data):
         super().initialize(version, build_data)
+
+        # 检查是否跳过构建
+        if os.environ.get('SKIP_BUILD', '').lower() in ('1', 'true', 'yes'):
+            stderr.write(">>> Skipping frontend build (SKIP_BUILD=true)\n")
+            return
+
         stderr.write(">>> Building Open Webui frontend\n")
         npm = shutil.which("npm")
         if npm is None:
