@@ -47,3 +47,8 @@
 # Misc
 *.env text eol=lf
 *.lock text eol=lf
+
+# Other text-based formats
+*.svg text eol=lf
+*.webmanifest text eol=lf
+*.csv text eol=lf
