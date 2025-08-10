@@ -62,8 +62,6 @@ dependencies = [
     "opensearch-py==2.8.0",
     
     "transformers",
-    "sentence-transformers==5.1.1",
-    "accelerate",
     "pyarrow==20.0.0",
     "einops==0.8.1",
 
@@ -92,9 +90,6 @@ dependencies = [
     "rapidocr-onnxruntime==1.4.4",
     "rank-bm25==0.2.2",
 
-    "onnxruntime==1.20.1",
-    "faster-whisper==1.1.1",
-
     "black==25.9.0",
     "youtube-transcript-api==1.2.2",
     "pytube==15.0.0",
@@ -113,6 +108,14 @@ dependencies = [
     "azure-storage-blob==12.24.1",
 
     "ldap3==2.9.1",
+<<<<<<< HEAD
+=======
+
+    "firecrawl-py==1.12.0",
+    
+    "oracledb>=3.2.0",
+
+>>>>>>> b203267bb (适应本地安装)
 ]
 readme = "README.md"
 requires-python = ">= 3.11, < 3.13.0a1"
