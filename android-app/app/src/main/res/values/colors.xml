@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 colors -->
+    <color name="colorPrimary">#6750A4</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#EADDFF</color>
+    <color name="colorOnPrimaryContainer">#21005D</color>
+    
+    <color name="colorSecondary">#625B71</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#E8DEF8</color>
+    <color name="colorOnSecondaryContainer">#1D192B</color>
+    
+    <color name="colorTertiary">#7D5260</color>
+    <color name="colorOnTertiary">#FFFFFF</color>
+    <color name="colorTertiaryContainer">#FFD8E4</color>
+    <color name="colorOnTertiaryContainer">#31111D</color>
+    
+    <color name="colorError">#B3261E</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <color name="colorErrorContainer">#F9DEDC</color>
+    <color name="colorOnErrorContainer">#410E0B</color>
+    
+    <color name="colorOutline">#79747E</color>
+    
+    <color name="colorBackground">#FFFBFE</color>
+    <color name="colorOnBackground">#1C1B1F</color>
+    
+    <color name="colorSurface">#FFFBFE</color>
+    <color name="colorOnSurface">#1C1B1F</color>
+    <color name="colorSurfaceVariant">#E7E0EC</color>
+    <color name="colorOnSurfaceVariant">#49454F</color>
+    
+    <!-- Legacy colors (for backward compatibility) -->
+    <color name="primaryContainer">#6750A4</color>
+    <color name="onPrimaryContainer">#FFFFFF</color>
+    <color name="secondaryContainer">#625B71</color>
+    <color name="onSecondaryContainer">#FFFFFF</color>
+    <color name="tertiaryContainer">#7D5260</color>
+    <color name="onTertiaryContainer">#FFFFFF</color>
+    <color name="background">#FFFBFE</color>
+    <color name="onBackground">#1C1B1F</color>
+    <color name="surface">#FFFBFE</color>
+    <color name="onSurface">#1C1B1F</color>
+    <color name="surfaceVariant">#E7E0EC</color>
+    <color name="onSurfaceVariant">#49454F</color>
+    <color name="errorContainer">#B3261E</color>
+    <color name="onErrorContainer">#FFFFFF</color>
+    <color name="outlineVariant">#CAC4D0</color>
+    <color name="scrim">#000000</color>
+    
+    <!-- Additional colors -->
+    <color name="white">#FFFFFF</color>
+    
+    <!-- Additional needed colors -->
+    <color name="secondary">#625B71</color>
+    <color name="tertiary">#7D5260</color>
+    <color name="outline">#79747E</color>
+    <color name="error">#B3261E</color>
+</resources>
