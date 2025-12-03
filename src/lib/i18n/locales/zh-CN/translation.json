@@ -1731,14 +1731,10 @@
 	"Sharing Permissions": "共享权限",
 	"Show": "显示",
 	"Show \"What's New\" modal on login": "版本更新后首次登录时显示“新功能介绍”弹窗",
-<<<<<<< HEAD
 	"Show Admin Details in Account Pending Overlay": "在待激活用户的界面中显示管理员邮箱等详细信息",
 	"Show All": "显示全部",
 	"Show all ({{COUNT}} characters)": "显示全部（共 {{COUNT}} 字符）",
-=======
->>>>>>> aa54a91de (本地化修改)
 	"Show Files": "显示文件",
-	"Show Admin Details in Account Pending Overlay": "在待激活用户的界面中显示管理员账号等详细信息",
 	"Show All": "显示全部",
 	"Show Formatting Toolbar": "显示文本格式工具栏",
 	"Show image preview": "显示图像预览",
