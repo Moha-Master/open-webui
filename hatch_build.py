@@ -11,6 +11,12 @@ class CustomBuildHook(BuildHookInterface):
     def initialize(self, version, build_data):
         super().initialize(version, build_data)
         stderr.write(">>> Building Open Webui frontend\n")
+
+        skip_build = os.getenv("SKIP_BUILD", "").strip().lower() in {"1", "true"}
+        if skip_build:
+            stderr.write("### SKIP_BUILD enabled, skipping frontend build\n")
+            return
+
         npm = shutil.which("npm")
         if npm is None:
             raise RuntimeError(
