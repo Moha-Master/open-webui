@@ -73,9 +73,7 @@ rank-bm25==0.2.2
 black==26.5.1
 youtube-transcript-api==1.2.4
 
-azure-ai-documentintelligence==1.0.2
 azure-identity==1.25.3
-azure-search-documents==12.0.0
 
 ## Databases
 psycopg2-binary==2.9.12
@@ -84,17 +82,14 @@ pgvector==0.4.2
 ## LDAP
 ldap3==2.9.1
 
-## Trace
-googleapis-common-protos==1.75.0
-opentelemetry-api==1.42.1
-opentelemetry-sdk==1.42.1
-opentelemetry-exporter-otlp==1.42.1
-opentelemetry-instrumentation==0.63b1
-opentelemetry-instrumentation-fastapi==0.63b1
-opentelemetry-instrumentation-sqlalchemy==0.63b1
-opentelemetry-instrumentation-redis==0.63b1
-opentelemetry-instrumentation-requests==0.63b1
-opentelemetry-instrumentation-logging==0.63b1
-opentelemetry-instrumentation-httpx==0.63b1
-opentelemetry-instrumentation-aiohttp-client==0.63b1
-opentelemetry-instrumentation-system-metrics==0.63b1
+## Documents
+pypdf==6.7.5
+docx2txt==0.9
+python-docx==1.2.0
+python-pptx==1.0.2
+msoffcrypto-tool==6.0.0
+pypandoc==1.17
+pandas==3.0.3
+openpyxl==3.1.5
+pyxlsb==1.0.10
+xlrd==2.0.2
