@@ -1849,7 +1849,7 @@ async def chat_image_generation_handler(request: Request, form_data: dict, extra
                 }
             )
 
-            system_message_content = '<context>The requested image has been edited and created and is now being shown to the user. Let them know that it has been generated.</context>'
+            system_message_content = '<context>请求的图像已经被编辑和创建，现在对用户可见。提醒用户图像生成了。</context>'
         except Exception as e:
             log.debug(e)
 
@@ -1870,7 +1870,7 @@ async def chat_image_generation_handler(request: Request, form_data: dict, extra
                 }
             )
 
-            system_message_content = f'<context>Image generation was attempted but failed. The system is currently unable to generate the image. Tell the user that the following error occurred: {error_message}</context>'
+            system_message_content = f'<context>图像生成尝试失败。系统目前无法生成图像。告诉用户发生了以下错误：{error_message}</context>'
 
     elif not await Config.get('image_generation.enable'):
         await __event_emitter__(
@@ -1957,7 +1957,7 @@ async def chat_image_generation_handler(request: Request, form_data: dict, extra
                 }
             )
 
-            system_message_content = '<context>The requested image has been created by the system successfully and is now being shown to the user. Let the user know that the image they requested has been generated and is now shown in the chat.</context>'
+            system_message_content = '<context>请求的图像已经被成功创建，现在对用户可见。提醒用户图像生成了。</context>'
         except Exception as e:
             log.debug(e)
 
@@ -1978,7 +1978,7 @@ async def chat_image_generation_handler(request: Request, form_data: dict, extra
                 }
             )
 
-            system_message_content = f'<context>Image generation was attempted but failed because of an error. The system is currently unable to generate the image. Tell the user that the following error occurred: {error_message}</context>'
+            system_message_content = f'<context>图像生成尝试失败。系统目前无法生成图像。告诉用户发生了以下错误：{error_message}</context>'
 
     if system_message_content:
         form_data['messages'] = add_or_update_system_message(system_message_content, form_data['messages'])

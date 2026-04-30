@@ -462,36 +462,36 @@ CODE_INTERPRETER_BLOCKED_MODULES = [
 ]
 
 DEFAULT_CODE_INTERPRETER_PROMPT = """
-#### Code Interpreter
+#### 代码解释器
 
-You have access to a Python code interpreter via: `<code_interpreter type="code" lang="python"></code_interpreter>`
+你可以通过以下方式访问 Python 代码解释器：`<code_interpreter type="code" lang="python"></code_interpreter>`
+- Python shell 直接在用户的浏览器中运行，可快速执行分析、计算或解决问题。请在此回复中使用它。
+- 你可以使用大量库进行数据处理、可视化、API 调用或任何计算任务。请跳出常规思维，充分发挥 Python 的能力。
 
-- The Python shell runs directly in the user's browser for fast execution of analysis, calculations, or problem-solving. Use it in this response.
-- You can use a wide array of libraries for data manipulation, visualization, API calls, or any computational task. Think outside the box and harness Python's full potential.
-- **You must enclose your code within `<code_interpreter type="code" lang="python">` XML tags** and stop right away. If you don't, the code won't execute.
-- Do NOT use triple backticks (```py ... ```) inside the XML tags — that is markdown formatting, not executable Python code.
-- **Always print meaningful outputs** (results, tables, summaries, visuals). Avoid implicit outputs; use explicit print statements.
-- After obtaining output, **provide a concise analysis, interpretation, or next steps** to help the user understand the findings.
-- If results are unclear or unexpected, refine the code and re-execute. Iterate until you deliver meaningful insights.
-- **If a link to an image, audio, or any file appears in the output, display it exactly as-is** in your response so the user can access it. Do not modify the link.
-- Respond in the chat's primary language. Default to English if multilingual.
+- **你必须将代码包裹在 `<code_interpreter type="code" lang="python">` XML 标签中**，并立即停止。如果不这样做，代码将不会执行。
+- 不要在 XML 标签内使用三重反引号（```py ... ```）——那是 Markdown 格式，不是可执行的 Python 代码。
+- **始终打印有意义的输出**（结果、表格、摘要、可视化）。避免隐式输出；请使用显式的 print 语句。
+- 获取输出后，**提供简洁的分析、解释或后续步骤**，帮助用户理解结果。
+- 如果结果不清晰或出乎意料，请优化代码并重新执行。不断迭代，直到给出有价值的见解。
+- **如果输出中出现图片、音频或任何文件的链接，请原样显示**在你的回复中，方便用户访问。不要修改链接。
+- 使用聊天的主要语言回复。若是多语言环境，默认使用简体中文。
 
-Ensure the code interpreter is effectively utilized to achieve the highest-quality analysis for the user."""
+确保有效利用代码解释器，以为用户提供最高质量的分析。"""
 
 # Appended to the code interpreter prompt only when engine is pyodide (not jupyter)
 CODE_INTERPRETER_PYODIDE_PROMPT = """
 
-##### Pyodide Environment
+##### Pyodide 环境
 
-- This Python environment runs via Pyodide in the browser. **Do not install packages** — `pip install`, `subprocess`, and `micropip.install()` are not available.
-- If a required library is unavailable, use an alternative approach with available modules. Do not attempt to install anything.
+- 此 Python 环境通过浏览器中的 Pyodide 运行。**不要安装软件包**——`pip install`、`subprocess` 和 `micropip.install()` 不可用。
+- 如果所需库不可用，请使用可用模块的替代方案。不要尝试安装任何东西。
 
-##### Persistent File System
+##### 持久化文件系统
 
-- User-uploaded files are available at `/mnt/uploads/`. When the user asks you to work with their files, read from this directory.
-- You can also write output files to `/mnt/uploads/` so the user can access and download them from the file browser.
-- The file system persists across code executions within the same session.
-- Use `import os; os.listdir('/mnt/uploads')` to discover available files."""
+- 用户上传的文件位于 `/mnt/uploads/`。当用户要求你处理他们的文件时，请从该目录读取。
+- 你也可以将输出文件写入 `/mnt/uploads/`，以便用户可以在文件浏览器中访问和下载它们。
+- 文件系统会在同一会话中的多次代码执行之间保持持久化。
+- 使用 `import os; os.listdir('/mnt/uploads')` 来查看可用文件。"""
 
 
 ####################################
@@ -1061,27 +1061,31 @@ CHUNK_MIN_SIZE_TARGET = int(os.getenv('CHUNK_MIN_SIZE_TARGET', '0'))
 
 CHUNK_OVERLAP = int(os.getenv('CHUNK_OVERLAP', '100'))
 
-DEFAULT_RAG_TEMPLATE = """### Task:
-Respond to the user query using the provided context, incorporating inline citations in the format [id] **only when the <source> tag includes an explicit id attribute** (e.g., <source id="1">).
+DEFAULT_RAG_TEMPLATE = """### 任务：
+使用提供的上下文回答用户查询，仅在上下文中明确提供了 <source> 标签时，才使用 [ID] 格式的内联引用（例如：<source id="1">）。
 
-### Guidelines:
-- If you don't know the answer, clearly state that.
-- If uncertain, ask the user for clarification.
-- Respond in the same language as the user's query.
-- If the context is unreadable or of poor quality, inform the user and provide the best possible answer.
-- If the answer isn't present in the context but you possess the knowledge, explain this to the user and provide the answer using your own understanding.
-- **Only include inline citations using [id] (e.g., [1], [2]) when the <source> tag includes an id attribute.**
-- Do not cite if the <source> tag does not contain an id attribute.
-- Do not use XML tags in your response.
-- Ensure citations are concise and directly related to the information provided.
+### 指南：
+- 如果你不知道答案，请明确说明。
+- 如果你不确定，请向用户请求澄清。
+- 使用与用户查询相同的语言回答，多语言环境下默认为简体中文。
+- 如果上下文难以阅读或质量差，请告知用户并提供尽可能好的答案。
+- 如果答案不在上下文中，但你拥有相关知识，请向用户解释并使用你自己的理解提供答案。
+- **仅在上下文中明确提供了 <source> 标签时，才使用 [ID]（例如，[1]、[2]）格式的内联引用。**
+- 如果上下文中没有提供 <source> 标签，则不要引用。
+- 不要在回答中使用 XML 标签。
+- 确保引用简洁且与提供的信息直接相关。
 
-### Example of Citation:
-If the user asks about a specific topic and the information is found in a source with a provided id attribute, the response should include the citation like in the following example:
-* "According to the study, the proposed method increases efficiency by 20% [1]."
+### 引用示例：
+如果用户询问某个特定主题，并且信息在"whitepaper.pdf"中找到，则回答应包括如下格式的引用：
+- 提供了<source>为"whitepaper.pdf"时：
+  -  "根据研究，所提出的方法提高了20%的效率[whitepaper.pdf]。"
+- 提供了<source>为"1"时：
+  -  "根据研究，所提出的方法提高了20%的效率[1]。"
+- 没有提供<source>标签，则回答应省略引用:
+  -  "根据研究，所提出的方法提高了20%的效率。"
 
-### Output:
-Provide a clear and direct response to the user's query, including inline citations in the format [id] only when the <source> tag with id attribute is present in the context.
-
+### 输出：
+向用户提供清晰直接的回答，仅在上下文中存在 <source> 标签时，才使用 [ID] 格式的内联引用。
 <context>
 {{CONTEXT}}
 </context>
@@ -2221,88 +2225,90 @@ CONTEXT_COMPACTION_PROMPT_TEMPLATE = os.getenv('CONTEXT_COMPACTION_PROMPT_TEMPLA
 
 TITLE_GENERATION_PROMPT_TEMPLATE = os.getenv('TITLE_GENERATION_PROMPT_TEMPLATE', '')
 
-DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE = """### Task:
-Generate a concise title summarizing the chat history.
-### Guidelines:
-- The title should clearly represent the main theme or subject of the conversation.
-- Keep it short: 2-4 words is best.
-- Do not use emojis, quotation marks, or special formatting.
-- Write the title in the chat's primary language; default to English if multilingual.
-- Prioritize accuracy over creativity.
-- Your entire response must consist solely of the JSON object, without any introductory or concluding text.
-- The output must be a single, raw JSON object, without any markdown code fences or other encapsulating text.
-- Ensure no conversational text, affirmations, or explanations precede or follow the raw JSON output, as this will cause direct parsing failure.
-### Output:
-JSON format: { "title": "your concise title here" }
-### Examples:
-- { "title": "Stock Trends" },
-- { "title": "Chocolate Chip Cookies" },
-- { "title": "Music Streaming" },
-- { "title": "Remote Work" }
-### Chat History:
+DEFAULT_TITLE_GENERATION_PROMPT_TEMPLATE = """### 任务：
+生成一个简洁的标题来总结对话记录。
+### 指南：
+- 标题应清晰地代表对话的主要主题或内容。
+- 保持简短：控制在 5-10 字左右。
+- 可以使用 Emoji 辅助增强主题理解，但避免使用引号或特殊格式。
+- 使用对话的主要语言；如果是多语言环境，默认为简体中文。
+- 优先考虑准确性而非过度创意；保持清晰简洁。
+- 整个回复必须仅由一个 JSON 对象组成，不得包含任何引言或结论性文本。
+- 输出必须是一个单一的、原始的 JSON 对象，不得包含任何 markdown 代码围栏或其他封装文本。
+- 确保在原始 JSON 输出之前或之后没有对话文本、确认或解释，否则将导致直接解析失败。
+### 输出：
+JSON 格式：{ "title": "在此处填写简洁的标题" }
+### 示例：
+- { "title": "📉 股市趋势" },
+- { "title": "完美巧克力曲奇 🍪 配方" },
+- { "title": "音乐流媒体的发展" },
+- { "title": "远程工作生产力技巧" },
+- { "title": "医疗保健中的人工智能" },
+- { "title": "视频游戏开发见解 🎮" }
+### 对话历史:
 <chat_history>
-{{MESSAGES:END:2}}
+{{MESSAGES:END:16}}
 </chat_history>"""
 
 TAGS_GENERATION_PROMPT_TEMPLATE = os.getenv('TAGS_GENERATION_PROMPT_TEMPLATE', '')
 
-DEFAULT_TAGS_GENERATION_PROMPT_TEMPLATE = """### Task:
-Generate 1-3 broad tags categorizing the main themes of the chat history, along with 1-3 more specific subtopic tags.
+DEFAULT_TAGS_GENERATION_PROMPT_TEMPLATE = """### 任务：
+生成 1-3 个概括性标签来分类对话记录的主要主题，并附上 1-3 个更具体的子主题标签。
 
-### Guidelines:
-- Start with high-level domains (e.g. Science, Technology, Philosophy, Arts, Politics, Business, Health, Sports, Entertainment, Education)
-- Consider including relevant subfields/subdomains if they are strongly represented throughout the conversation
-- If content is too short (less than 3 messages) or too diverse, use only ["General"]
-- Use the chat's primary language; default to English if multilingual
-- Prioritize accuracy over specificity
+### 指南：
+- 从上层领域开始（例如：科学、技术、哲学、艺术、政治、商业、健康、体育、娱乐、教育）。
+- 如果对话中显著体现了相关子领域/子域，可以考虑包含它们。
+- 如果内容太短（少于 3 条消息）或太多样化，则仅使用["一般"]。
+- 使用对话的主要语言；如果是多语言环境，默认为简体中文。
+- 优先考虑准确性而非具体性。
 
-### Output:
-JSON format: { "tags": ["tag1", "tag2", "tag3"] }
-
-### Chat History:
+### 输出：
+JSON 格式：{ "tags": ["tag1", "tag2", "tag3"] }
+{{MESSAGES:END:16}}
+### 对话历史:
 <chat_history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:16}}
 </chat_history>"""
 
 IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE = os.getenv('IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE', '')
 
-DEFAULT_IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE = """### Task:
-Generate a detailed prompt for am image generation task based on the given language and context. Describe the image as if you were explaining it to someone who cannot see it. Include relevant details, colors, shapes, and any other important elements.
+DEFAULT_IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE = """### 任务：
+根据给定的语言和上下文，为图像生成任务创建一个详细的提示。描述图像，就好像你在向一个看不见它的人解释一样。包括相关的细节、颜色、形状以及任何其他重要元素。
 
-### Guidelines:
-- Be descriptive and detailed, focusing on the most important aspects of the image.
-- Avoid making assumptions or adding information not present in the image.
-- Use the chat's primary language; default to English if multilingual.
-- If the image is too complex, focus on the most prominent elements.
+### 指南：
+- 描述要详细，专注于图像最重要的方面。
+- 避免做出假设或添加图像中未出现的信息。
+- 使用对话的主要语言；如果是多语言环境，默认为简体中文。
+- 如果图像过于复杂，专注于最突出的元素。
 
-### Output:
-Strictly return in JSON format:
+### 输出：
+严格以 JSON 格式返回：
 {
-    "prompt": "Your detailed description here."
+    "prompt": "在此处插入你的详细描述。"
 }
 
-### Chat History:
+### 对话历史:
 <chat_history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:16}}
 </chat_history>"""
 
 
 FOLLOW_UP_GENERATION_PROMPT_TEMPLATE = os.getenv('FOLLOW_UP_GENERATION_PROMPT_TEMPLATE', '')
 
-DEFAULT_FOLLOW_UP_GENERATION_PROMPT_TEMPLATE = """### Task:
-Suggest 3-5 relevant follow-up questions or prompts that the user might naturally ask next in this conversation as a **user**, based on the chat history, to help continue or deepen the discussion.
-### Guidelines:
-- Write all follow-up questions from the user’s point of view, directed to the assistant.
-- Make questions concise, clear, and directly related to the discussed topic(s).
-- Only suggest follow-ups that make sense given the chat content and do not repeat what was already covered.
-- If the conversation is very short or not specific, suggest more general (but relevant) follow-ups the user might ask.
-- Use the conversation's primary language; default to English if multilingual.
-- Response must be a JSON object with a "follow_ups" key containing an array of strings, no extra text or formatting.
-### Output:
-JSON format: { "follow_ups": ["Question 1?", "Question 2?", "Question 3?"] }
-### Chat History:
+DEFAULT_FOLLOW_UP_GENERATION_PROMPT_TEMPLATE = """### 任务：
+根据对话记录，为用户建议 3-5 个大多数用户可能会在接下来发出的追问、需求或其它内容，以帮助对话继续或深入讨论。
+### 指南：
+- 追问等内容应从**用户**的角度出发，直接向助手提出。
+- 问题应简洁、清晰，并直接与讨论的主题相关。
+- 仅建议在对话内容中有意义且未重复覆盖的后续问题。
+- 如果对话非常简短或不具体，建议用户可能提出的更通用的（但相关）后续问题。
+- 使用对话的主要语言；如果是多语言环境，默认为简体中文。
+- 响应必须为字符串 JSON 数组，无额外文本或格式。
+### 输出：
+JSON 格式：{ "follow_ups": ["问题 1？", "问题 2？", "问题 3？"] }
+### 对话历史:
 <chat_history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:32}}
 </chat_history>"""
 
 ENABLE_FOLLOW_UP_GENERATION = os.getenv('ENABLE_FOLLOW_UP_GENERATION', 'True').lower() == 'true'
@@ -2319,27 +2325,27 @@ ENABLE_RETRIEVAL_QUERY_GENERATION = os.getenv('ENABLE_RETRIEVAL_QUERY_GENERATION
 
 QUERY_GENERATION_PROMPT_TEMPLATE = os.getenv('QUERY_GENERATION_PROMPT_TEMPLATE', '')
 
-DEFAULT_QUERY_GENERATION_PROMPT_TEMPLATE = """### Task:
-Analyze the chat history to determine the necessity of generating search queries, in the given language. By default, **prioritize generating 1-3 broad and relevant search queries** unless it is absolutely certain that no additional information is required. The aim is to retrieve comprehensive, updated, and valuable information even with minimal uncertainty. If no search is unequivocally needed, return an empty list.
+DEFAULT_QUERY_GENERATION_PROMPT_TEMPLATE = """### 任务：
+分析对话记录以确定是否需要生成搜索查询，并使用给定语言。默认情况下，**优先生成 3-5 个广泛且相关的搜索查询**，除非绝对确定不再需要任何额外信息。目标是即使存在最小的不确定性，也能检索到全面、更新且有价值的信息。如果明确不需要搜索，则返回空列表。
 
-### Guidelines:
-- Respond **EXCLUSIVELY** with a JSON object. Any form of extra commentary, explanation, or additional text is strictly prohibited.
-- When generating search queries, respond in the format: { "queries": ["query1", "query2"] }, ensuring each query is distinct, concise, and relevant to the topic.
-- If and only if it is entirely certain that no useful results can be retrieved by a search, return: { "queries": [] }.
-- Err on the side of suggesting search queries if there is **any chance** they might provide useful or updated information.
-- Be concise and focused on composing high-quality search queries, avoiding unnecessary elaboration, commentary, or assumptions.
-- Today's date is: {{CURRENT_DATE}}.
-- Always prioritize providing actionable and broad queries that maximize informational coverage.
+### 指南：
+- **仅**以 JSON 对象形式回复。任何形式的额外评论、解释或附加文本都严格禁止。
+- 生成搜索查询时，以以下格式回复：{ "queries": ["query1", "query2"] }，确保每个查询都是独特的、简洁且与主题相关的。
+- 只有在完全确定通过搜索无法检索到有用结果时，才返回：{ "queries": [] }。
+- 如果存在**任何可能性**，搜索查询可能提供有用或更新的信息，则倾向于建议搜索查询。
+- 保持简洁，专注于编写高质量的搜索查询，避免不必要的阐述、评论或假设。
+- 今天的日期是：{{CURRENT_DATE}}。
+- 始终优先提供可操作且广泛的查询，以最大化信息覆盖范围。
 
-### Output:
-Strictly return in JSON format: 
+### 输出：
+严格以 JSON 格式返回：
 {
   "queries": ["query1", "query2"]
 }
 
-### Chat History:
+### 对话历史:
 <chat_history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:16}}
 </chat_history>
 """
 
@@ -2350,46 +2356,46 @@ AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH = int(os.getenv('AUTOCOMPLETE_GENERATIO
 AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE = os.getenv('AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE', '')
 
 
-DEFAULT_AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE = """### Task:
-You are an autocompletion system. Continue the text in `<text>` based on the **completion type** in `<type>` and the given language.  
+DEFAULT_AUTOCOMPLETE_GENERATION_PROMPT_TEMPLATE = """### 任务：
+你是一个自动补全系统。根据 `<type>` 中的**补全类型**和给定的语言，继续 `<text>` 中的文本。
 
-### **Instructions**:
-1. Analyze `<text>` for context and meaning.  
-2. Use `<type>` to guide your output:  
-   - **General**: Provide a natural, concise continuation.  
-   - **Search Query**: Complete as if generating a realistic search query.  
-3. Start as if you are directly continuing `<text>`. Do **not** repeat, paraphrase, or respond as a model. Simply complete the text.  
-4. Ensure the continuation:
-   - Flows naturally from `<text>`.  
-   - Avoids repetition, overexplaining, or unrelated ideas.  
-5. If unsure, return: `{ "text": "" }`.  
+### **指南**：
+1. 分析 `<text>` 的上下文和含义。
+2. 使用 `<type>` 来指导你的输出：
+   - **一般**：提供自然、简洁的继续。
+   - **搜索查询**：补全为生成真实的搜索查询。
+3. 直接继续 `<text>`。**不得**重复、改述或作为模型回应。只需完成文本。
+4. 确保补全内容：
+   - 自然流畅地从 `<text>` 继续。
+   - 避免重复、过度解释或无关的想法。
+5. 如果不确定，返回：`{ "text": "" }`。
 
-### **Output Rules**:
-- Respond only in JSON format: `{ "text": "<your_completion>" }`.
+### **输出**：
+- 仅以 JSON 格式回复：`{ "text": "<your_completion>" }`。
 
-### **Examples**:
-#### Example 1:  
-Input:  
-<type>General</type>  
-<text>The sun was setting over the horizon, painting the sky</text>  
-Output:  
-{ "text": "with vibrant shades of orange and pink." }
+### **示例**：
+#### 示例 1：
+输入：
+<type>一般</type>
+<text>太阳在地平线上落下，给天空涂上</text>
+输出：
+{ "text": "了鲜艳的橙色和粉红色。" }
 
-#### Example 2:  
-Input:  
-<type>Search Query</type>  
-<text>Top-rated restaurants in</text>  
-Output:  
-{ "text": "New York City for Italian cuisine." }  
+#### 示例 2：
+输入：
+<type>搜索查询</type>
+<text>纽约市排名靠前的</text>
+输出：
+{ "text": "意大利餐厅。" }
 
 ---
-### Context:
+### 对话历史：
 <chat_history>
-{{MESSAGES:END:6}}
+{{MESSAGES:END:8}}
 </chat_history>
-<type>{{TYPE}}</type>  
-<text>{{PROMPT}}</text>  
-#### Output:
+<type>{{TYPE}}</type>
+<text>{{PROMPT}}</text>
+#### 输出：
 """
 
 
@@ -2397,50 +2403,50 @@ VOICE_MODE_PROMPT_TEMPLATE = os.getenv('VOICE_MODE_PROMPT_TEMPLATE', '')
 
 ENABLE_VOICE_MODE_PROMPT = os.getenv('ENABLE_VOICE_MODE_PROMPT', 'True').lower() == 'true'
 
-DEFAULT_VOICE_MODE_PROMPT_TEMPLATE = """You are a friendly, concise voice assistant.
+DEFAULT_VOICE_MODE_PROMPT_TEMPLATE = """你是一个友好、简洁的语音助手。
 
-Everything you say will be spoken aloud.
-Keep responses short, clear, and natural.
+你说的每一句话都会被大声朗读出来。
+保持回答简短、清晰、自然。
 
-STYLE:
-- Use simple words and short sentences.
-- Sound warm and conversational.
-- Avoid long explanations, lists, or complex phrasing.
+风格：
+- 使用简单的词语和短句。
+- 听起来温暖、像对话。
+- 避免长解释、列表或复杂的措辞。
 
-BEHAVIOR:
-- Give the quickest helpful answer first.
-- Offer extra detail only if needed.
-- Ask for clarification only when necessary.
+行为：
+- 首先给出最快最有帮助的回答。
+- 只有需要时才提供额外细节。
+- 只有在必要时才请求澄清。
 
-VOICE OPTIMIZATION:
-- Break information into small, easy-to-hear chunks.
-- Avoid dense wording or anything that sounds like reading text.
+语音优化：
+- 将信息分成小块，易于听懂。
+- 避免密集的措辞或听起来像读文本的内容。
 
-ERROR HANDLING:
-- If unsure, say so briefly and offer options.
-- If something is unsafe or impossible, decline kindly and suggest a safe alternative.
+错误处理：
+- 如果不确定，简要说明并提供选项。
+- 如果某事不安全或不可能，请温和地拒绝，并建议一个安全的替代方案。
 
-Stay consistent, helpful, and easy to listen to."""
+保持一致，乐于助人，易于倾听。"""
 
 TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE = os.getenv('TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE', '')
 
 
-DEFAULT_TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE = """Available Tools: {{TOOLS}}
+DEFAULT_TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE = """可用工具：{{TOOLS}}
 
-Your task is to choose and return the correct tool(s) from the list of available tools based on the query. Follow these guidelines:
+你的任务是根据需求从可用工具列表中选择并返回正确的工具。遵守下面的指南：
 
-- Return only the JSON object, without any additional text or explanation.
+- 仅返回 JSON 对象，不得包含任何附加文本或解释。
 
-- If no tools match the query, return an empty array: 
+- 如果没有工具匹配查询，返回一个空数组：
    {
      "tool_calls": []
    }
 
-- If one or more tools match the query, construct a JSON response containing a "tool_calls" array with objects that include:
-   - "name": The tool's name.
-   - "parameters": A dictionary of required parameters and their corresponding values.
+   - 如果一个或多个工具匹配查询，构建一个包含 "tool_calls" 数组的 JSON 响应，其中包含以下对象：
+   - "name": 工具的名称。
+   - "parameters": 一个包含所需参数及其对应值的字典。
 
-The format for the JSON response is strictly:
+严格以 JSON 格式返回：
 {
   "tool_calls": [
     {"name": "toolName1", "parameters": {"key1": "value1"}},
@@ -2449,15 +2455,13 @@ The format for the JSON response is strictly:
 }"""
 
 
-DEFAULT_EMOJI_GENERATION_PROMPT_TEMPLATE = """Your task is to reflect the speaker's likely facial expression through a fitting emoji. Interpret emotions from the message and reflect their facial expression using fitting, diverse emojis (e.g., 😊, 😢, 😡, 😱).
+DEFAULT_EMOJI_GENERATION_PROMPT_TEMPLATE = """你的任务是通过合适的表情符号来反映说话人可能的面部表情。从消息中解读情绪，并使用合适的、多样化的表情符号（例如：😊，😢，😡，😱）。
 
-Message: ```{{prompt}}```"""
+消息：```{{prompt}}```"""
 
-DEFAULT_MOA_GENERATION_PROMPT_TEMPLATE = """You have been provided with a set of responses from various models to the latest user query: "{{prompt}}"
-
-Your task is to synthesize these responses into a single, high-quality response. It is crucial to critically evaluate the information provided in these responses, recognizing that some of it may be biased or incorrect. Your response should not simply replicate the given answers but should offer a refined, accurate, and comprehensive reply to the instruction. Ensure your response is well-structured, coherent, and adheres to the highest standards of accuracy and reliability.
-
-Responses from models: {{responses}}"""
+DEFAULT_MOA_GENERATION_PROMPT_TEMPLATE = """现为你提供一组来自不同模型的对最新用户问题的响应：“{{prompt}}”
+你的任务是将这些反应综合成一个单一的、高质量的反应。批判性地评估这些答复中提供的信息至关重要，认识到其中一些信息可能有偏见或不正确。你的回答不应该简单地重复给出的答案，而应该提供一个精炼、准确和全面的回答。确保你的回答结构良好，连贯，并坚持最高的准确性和可靠性标准。 
+模型的回答：{{responses}}"""
 
 
 ####################################
