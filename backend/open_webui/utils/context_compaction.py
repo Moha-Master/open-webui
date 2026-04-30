@@ -19,23 +19,19 @@ from open_webui.utils.task import (
 
 log = logging.getLogger(__name__)
 
-DEFAULT_CONTEXT_COMPACTION_PROMPT = """### Task:
-Summarize the conversation history that will be compacted out of the active chat context.
-
-### Instructions:
-- Preserve key decisions, user preferences, and constraints.
-- Preserve files, artifacts, tool results, and code changes that matter going forward.
-- Preserve the current task state, unresolved questions, and next steps.
-- Be factual and specific. Do not invent details.
-- Keep the summary concise, but complete enough for the assistant to continue without the removed messages.
-
-### Previous Summary:
+DEFAULT_CONTEXT_COMPACTION_PROMPT = """### 任务：
+总结将从活动聊天上下文中被压缩移除的这些对话历史。
+### 指示：
+- 保留关键决策、用户偏好和约束条件。
+- 保留今后仍然重要的文件、产物、工具结果和代码更改。
+- 保留当前任务状态、未解决的问题和后续步骤。
+- 事实准确、具体。不要编造细节。
+- 保持摘要简洁，但足以让 assistant 在没有被移除消息的情况下继续工作。
+### 上一轮摘要：
 {{PREVIOUS_SUMMARY}}
-
-### Messages Being Compacted:
+### 被压缩的消息：
 {{COMPACTED_MESSAGES}}
-
-### Recent Messages Kept In Context:
+### 最近保留在上下文中的消息：
 {{RECENT_MESSAGES}}"""
 
 

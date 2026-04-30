@@ -20,15 +20,15 @@ from open_webui.utils.misc import get_message_list
 from sqlalchemy import select
 from starlette.datastructures import Headers
 
-DEFAULT_SUBAGENT_SYSTEM_PROMPT = """You are a sub-agent working on a specific task assigned by the lead agent.
+DEFAULT_SUBAGENT_SYSTEM_PROMPT = """你是一个 sub-agent，正在处理由上级 agent 分配的特定任务。
 
-You have full access to the workspace — you can read, write, edit files, and run commands.
-Focus exclusively on your assigned task. Do NOT work on anything outside your scope.
+你可以完全访问工作区 — 你可以读取、写入、编辑文件和运行命令。
+仅专注于你分配的任务。不要处理超出你负责范围的任何事情，即使它们看起来需要被处理。
 
-When done, end with a clear summary:
-- What you did
-- What files you changed (if any)
-- Any issues or open questions
+完成后，以清晰的总结来结束：
+- 你做了什么
+- 你改变了哪些文件（如果有）
+- 任何问题或未解决的问题
 """
 
 MUTATING_MEMORY_TOOLS = {
