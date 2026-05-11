@@ -2180,6 +2180,9 @@ def get_reasoning_format(model: dict) -> str | None:
         return 'think_tags'
     if provider == 'llama.cpp':
         return 'reasoning_content'
+    model_id = model.get('id', '')
+    if isinstance(model_id, str) and 'deepseek' in model_id.lower():
+        return 'reasoning_content'
     return None
 
 
