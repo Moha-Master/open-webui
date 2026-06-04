@@ -199,12 +199,13 @@ export const verifyOpenAIConnection = async (
 export const chatCompletion = async (
 	token: string = '',
 	body: object,
-	url: string = `${WEBUI_BASE_URL}/api`
+	url?: string
 ): Promise<[Response | null, AbortController]> => {
 	const controller = new AbortController();
 	let error = null;
+	const baseUrl = url ?? `${WEBUI_BASE_URL}/api`;
 
-	const res = await fetch(`${url}/chat/completions`, {
+	const res = await fetch(`${baseUrl}/chat/completions`, {
 		signal: controller.signal,
 		method: 'POST',
 		headers: {
@@ -228,11 +229,12 @@ export const chatCompletion = async (
 export const generateOpenAIChatCompletion = async (
 	token: string = '',
 	body: object,
-	url: string = `${WEBUI_BASE_URL}/api`
+	url?: string
 ) => {
 	let error = null;
+	const baseUrl = url ?? `${WEBUI_BASE_URL}/api`;
 
-	const res = await fetch(`${url}/chat/completions`, {
+	const res = await fetch(`${baseUrl}/chat/completions`, {
 		method: 'POST',
 		headers: {
 			Authorization: `Bearer ${token}`,

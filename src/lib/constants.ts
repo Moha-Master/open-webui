@@ -3,15 +3,39 @@ import { browser, dev } from '$app/environment';
 
 export const APP_NAME = 'Open WebUI';
 
-export const WEBUI_HOSTNAME = browser ? (dev ? `${location.hostname}:8080` : ``) : '';
-export const WEBUI_BASE_URL = browser ? (dev ? `http://${WEBUI_HOSTNAME}` : ``) : ``;
-export const WEBUI_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1`;
+function resolveBackendUrl(): string {
+	if (!browser) return '';
+	if (typeof window !== 'undefined' && (window as any).__OWUI_BACKEND_URL__) {
+		return (window as any).__OWUI_BACKEND_URL__;
+	}
+	if (dev) return `http://${location.hostname}:8080`;
+	return '';
+}
 
-export const OLLAMA_API_BASE_URL = `${WEBUI_BASE_URL}/ollama`;
-export const OPENAI_API_BASE_URL = `${WEBUI_BASE_URL}/openai`;
-export const AUDIO_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/audio`;
-export const IMAGES_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/images`;
-export const RETRIEVAL_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/retrieval`;
+export let WEBUI_HOSTNAME = browser ? (dev ? `${location.hostname}:8080` : '') : '';
+export let WEBUI_BASE_URL = resolveBackendUrl();
+
+export let WEBUI_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1`;
+
+export let OLLAMA_API_BASE_URL = `${WEBUI_BASE_URL}/ollama`;
+export let OPENAI_API_BASE_URL = `${WEBUI_BASE_URL}/openai`;
+export let AUDIO_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/audio`;
+export let IMAGES_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/images`;
+export let RETRIEVAL_API_BASE_URL = `${WEBUI_BASE_URL}/api/v1/retrieval`;
+
+export function updateBackendUrl(url: string): void {
+	WEBUI_BASE_URL = url;
+	WEBUI_API_BASE_URL = `${url}/api/v1`;
+	OLLAMA_API_BASE_URL = `${url}/ollama`;
+	OPENAI_API_BASE_URL = `${url}/openai`;
+	AUDIO_API_BASE_URL = `${url}/api/v1/audio`;
+	IMAGES_API_BASE_URL = `${url}/api/v1/images`;
+	RETRIEVAL_API_BASE_URL = `${url}/api/v1/retrieval`;
+}
+
+if (browser && typeof window !== 'undefined') {
+	(window as any).__owui_update_backend_url__ = updateBackendUrl;
+}
 
 // The version changes, but the promise must not. Let what
 // was built here keep its word across every release.
