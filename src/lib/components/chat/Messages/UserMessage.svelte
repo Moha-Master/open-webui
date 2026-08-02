@@ -185,7 +185,7 @@
 									: `${WEBUI_API_BASE_URL}/files/${file.url}${file?.content_type ? '/content' : ''}`}
 							<div class={($settings?.chatBubble ?? true) ? 'self-end' : ''}>
 								{#if file.type === 'image' || isRasterImageContentType(file?.content_type)}
-									<Image src={fileUrl} imageClassName=" max-h-96 rounded-lg" />
+									<Image src={fileUrl} imageClassName=" max-w-[25vw] max-h-[25vh] rounded-lg" />
 								{:else}
 									<FileItem
 										item={file}
