@@ -63,6 +63,23 @@
 			>
 			</iframe>
 		{/if}
+	{:else if token.text && token.text.match(/<iframe\s+[^>]*src="(?:https?:)?\/\/player\.bilibili\.com\/player\.html\?[^"]*bvid=(BV[0-9A-Za-z]{10})[^"]*"[^>]*><\/iframe>/)}
+		{@const biliMatch = token.text.match(
+			/<iframe\s+[^>]*src="(?:https?:)?\/\/player\.bilibili\.com\/player\.html\?[^"]*bvid=(BV[0-9A-Za-z]{10})[^"]*"[^>]*><\/iframe>/
+		)}
+		{@const bvid = biliMatch && biliMatch[1]}
+		{#if bvid}
+			<iframe
+				class="w-full aspect-video my-2"
+				src={`https://player.bilibili.com/player.html?bvid=${bvid}&page=1`}
+				title="Bilibili video player"
+				frameborder="0"
+				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+				referrerpolicy="strict-origin-when-cross-origin"
+				allowfullscreen
+			>
+			</iframe>
+		{/if}
 	{:else if token.text && token.text.includes('<iframe')}
 		{@const match = token.text.match(/<iframe\s+[^>]*src="([^"]+)"[^>]*><\/iframe>/)}
 		{@const iframeSrc = match && match[1]}
