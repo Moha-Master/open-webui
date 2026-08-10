@@ -2182,15 +2182,27 @@ def get_reasoning_format(model: dict) -> str | None:
     Returns:
         'thinking': Ollama expects reasoning in the native thinking field.
         'think_tags': wrap reasoning in <think> tags inside content.
-        'reasoning_content': llama.cpp supports reasoning_content as a top-level field.
-        None: skip reasoning (safe default for strict providers).
+        'reasoning_content': llama.cpp and OpenAI-compatible reasoning endpoints
+            (DeepSeek, Kimi, GLM, MiniMax, Qwen, MiMo, vLLM, OpenRouter passthrough,
+            etc.) expect reasoning_content as a top-level field on assistant
+            tool-call messages during chain tool calling.
+        None: skip reasoning (safe for strict/stateful providers that manage
+            reasoning server-side, and for models that forbid thinking in history).
     """
     provider = model.get('provider', '')
     if model.get('owned_by') == 'ollama':
         return 'thinking'
     if provider == 'llama.cpp':
         return 'reasoning_content'
-    return None
+    if provider == 'azure':
+        return None
+    model_id = model.get('id', '')
+    if isinstance(model_id, str):
+        mid = model_id.lower()
+        # Gemma explicitly forbids thinking content in conversation history.
+        if 'gemma' in mid:
+            return None
+    return 'reasoning_content'
 
 
 def strip_reasoning_details(output: list) -> list:
